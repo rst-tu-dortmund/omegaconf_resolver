@@ -1,0 +1,10 @@
+defaults:
+  - sub_conf: subconf
+  - another_subconf: anothersubconf
+  - _self_
+
+a: 3
+add: ${add:a,2}
+mult: ${mult:a,2}
+div: ${div:a,2}
+intdiv: ${intdiv:a,2}

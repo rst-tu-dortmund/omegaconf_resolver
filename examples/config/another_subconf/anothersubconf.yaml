@@ -1,0 +1,3 @@
+a: 4
+relative_add: ${add:a,2}
+absolute_add: ${add:sub_conf.a,2}

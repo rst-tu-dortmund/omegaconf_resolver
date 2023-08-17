@@ -98,3 +98,25 @@ class add(OmegaConfResolver):
                 y = y_loc
 
         return x + y
+
+
+class sub(OmegaConfResolver):
+    def __str__(self):
+        return "sub"
+
+    def __call__(self, x, y, *, _parent_, _root_):
+        if isinstance(x, str):
+            x_loc = OmegaConf.select(_parent_, x)
+            if x_loc is None:
+                x = OmegaConf.select(_root_, x)
+            else:
+                x = x_loc
+
+        if isinstance(y, str):
+            y_loc = OmegaConf.select(_parent_, y)
+            if y_loc is None:
+                y = OmegaConf.select(_root_, y)
+            else:
+                y = y_loc
+
+        return x - y

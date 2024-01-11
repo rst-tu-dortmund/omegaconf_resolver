@@ -4,6 +4,7 @@ import importlib
 from omegaconf import OmegaConf
 from .omega_conf_resolver import OmegaConfResolver
 
+
 def add_costum_resolvers():
     for name, obj in inspect.getmembers(
         sys.modules["omega_conf_resolver.omega_conf_resolver"]

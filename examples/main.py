@@ -1,7 +1,7 @@
 import hydra
 from omegaconf import OmegaConf
 
-import omega_conf_resolver
+import omegaconf_resolver
 
 
 @hydra.main(config_path="config", config_name="config")

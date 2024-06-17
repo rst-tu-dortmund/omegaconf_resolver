@@ -4,14 +4,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="omega_conf_resolver",
-    version="0.01",
-    packages=["omega_conf_resolver"],
+    name="omegaconf_resolver",
+    version="0.2.0",
+    packages=["omegaconf_resolver"],
     url="",
     license="",
     author="Timo Osterburg",
     author_email="timo.osterburg@tu-dortmund.de",
-    description="Collection of costum omegaconf resolver",
+    description="Collection of custom omegaconf resolver",
     long_description=long_description,
     long_description_content_type="text/markdown",
     project_urls={},

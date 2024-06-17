@@ -2,12 +2,12 @@ import inspect
 import sys
 import importlib
 from omegaconf import OmegaConf
-from .omega_conf_resolver import OmegaConfResolver
+from omegaconf_resolver.omegaconf_resolver import OmegaConfResolver
 
 
-def add_costum_resolvers():
+def register():
     for name, obj in inspect.getmembers(
-        sys.modules["omega_conf_resolver.omega_conf_resolver"]
+        sys.modules["omegaconf_resolver.omegaconf_resolver"]
     ):
         if (
             inspect.isclass(obj)

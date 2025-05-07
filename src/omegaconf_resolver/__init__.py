@@ -3,6 +3,7 @@ import sys
 import importlib
 from omegaconf import OmegaConf
 from omegaconf_resolver.omegaconf_resolver import OmegaConfResolver
+import logging 
 
 
 def register():
@@ -14,6 +15,9 @@ def register():
             and issubclass(obj, OmegaConfResolver)
             and not inspect.isabstract(obj)
         ):
-            OmegaConf.register_new_resolver(name, obj())
+            try:
+                OmegaConf.register_new_resolver(name, obj())
+            except ValueError:
+                logging.info(f"Resolver {name} already registered")
 
             # importlib.import_module(name, package="omega_conf_resolver.omega_conf_resolver")

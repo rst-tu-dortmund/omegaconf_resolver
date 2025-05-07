@@ -12,6 +12,21 @@ class OmegaConfResolver(ABC):
         pass
 
 
+class array(OmegaConfResolver):
+    def __str__(self):
+        return "array"
+
+    def __call__(self, x, *, _parent_, _root_):
+        import numpy
+        if isinstance(x, str):
+            x_loc = OmegaConf.select(_parent_, x)
+            if x_loc is None:
+                x = OmegaConf.select(_root_, x)
+            else:
+                x = x_loc
+        return numpy.asarray(x)
+
+
 class mult(OmegaConfResolver):
     def __str__(self):
         return "mult"

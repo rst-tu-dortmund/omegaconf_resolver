@@ -1,4 +1,4 @@
-from omegaconf import OmegaConf
+from omegaconf import OmegaConf, ListConfig, DictConfig
 from abc import ABC, abstractmethod
 
 
@@ -11,6 +11,21 @@ class OmegaConfResolver(ABC):
     def __call__(self, *args, **kwargs):
         pass
 
+
+class length(OmegaConfResolver):
+    def __str__(self):
+        return "length"
+    
+    def __call__(self, x, *, _parent_, _root_):
+        if isinstance(x, str):
+            x_loc = OmegaConf.select(_parent_, x)
+            if x_loc is None:
+                x = OmegaConf.select(_root_, x)
+            else:
+                x = x_loc
+        if isinstance(x, (list, tuple, dict, ListConfig, DictConfig)):
+            return len(x)
+        raise TypeError(f"len() not supported for type {type(x)}")
 
 class mult(OmegaConfResolver):
     def __str__(self):

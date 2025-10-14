@@ -23,7 +23,7 @@ setup(
         "omegaconf>=2.3.0",
     ],
     extras_require={
-        "test": ["pytest", "pytest-cov", "hydra-core"],
+        "test": ["pytest", "pytest-cov", "hydra-core", "numpy"],
     },
     package_dir={"": "src"},
     python_requires=">=3.10",

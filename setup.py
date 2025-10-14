@@ -20,8 +20,11 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        "hydra-core",
+        "omegaconf",
     ],
+    extras_require={
+        "test": ["pytest", "pytest-cov", "hydra-core"],
+    },
     package_dir={"": "src"},
     python_requires=">=3.7",
 )

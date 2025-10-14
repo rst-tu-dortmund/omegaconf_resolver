@@ -28,7 +28,7 @@ class array(OmegaConfResolver):
 
     def __call__(self, x, *, _parent_, _root_):
         import numpy
-        
+
         return numpy.asarray(x)
 
 
@@ -81,6 +81,7 @@ class sub(OmegaConfResolver):
 
     def __call__(self, x, y, *, _parent_, _root_):
         return x - y
+
 
 class path_join(OmegaConfResolver):
     def __init__(self):

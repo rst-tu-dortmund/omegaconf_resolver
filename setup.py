@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="omegaconf_resolver",
-    version="0.2.0",
+    version="1.0.0",
     packages=["omegaconf_resolver"],
     url="",
     license="",
@@ -20,8 +20,8 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        "hydra-core",
+        "omegaconf>=2.3.0",
     ],
     package_dir={"": "src"},
-    python_requires=">=3.7",
+    python_requires=">=3.10",
 )

@@ -12,20 +12,35 @@ class OmegaConfResolver(ABC):
         pass
 
 
+<<<<<<< HEAD
 class length(OmegaConfResolver):
     def __str__(self):
         return "length"
     
     def __call__(self, x, *, _parent_, _root_):
+=======
+class array(OmegaConfResolver):
+    def __str__(self):
+        return "array"
+
+    def __call__(self, x, *, _parent_, _root_):
+        import numpy
+
+>>>>>>> master
         if isinstance(x, str):
             x_loc = OmegaConf.select(_parent_, x)
             if x_loc is None:
                 x = OmegaConf.select(_root_, x)
             else:
                 x = x_loc
+<<<<<<< HEAD
         if isinstance(x, (list, tuple, dict, ListConfig, DictConfig)):
             return len(x)
         raise TypeError(f"len() not supported for type {type(x)}")
+=======
+        return numpy.asarray(x)
+
+>>>>>>> master
 
 class mult(OmegaConfResolver):
     def __str__(self):
@@ -96,7 +111,7 @@ class intdiv(OmegaConfResolver):
 class if_cond(OmegaConfResolver):
     def __str__(self):
         return "if"
-    
+
     def __call__(self, cond, x, y, *, _parent_, _root_):
         if isinstance(cond, str):
             cond_loc = OmegaConf.select(_parent_, cond)
@@ -165,3 +180,17 @@ class sub(OmegaConfResolver):
                 y = y_loc
 
         return x - y
+
+
+class path_join(OmegaConfResolver):
+    def __init__(self):
+        import os
+
+        super().__init__()
+        self.joinmethod = os.path.join
+
+    def __str__(self):
+        return "path_join"
+
+    def __call__(self, *args, _parent_, _root_):
+        return self.joinmethod(*args)

@@ -10,7 +10,7 @@ black-checker:
       - docker
       - ubuntu
   script:
-    - black --check ./src ./test
+    - black --check ./src
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 

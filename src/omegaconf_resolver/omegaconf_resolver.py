@@ -15,9 +15,8 @@ class OmegaConfResolver(ABC):
 class length(OmegaConfResolver):
     def __str__(self):
         return "length"
-    
-    def __call__(self, x, *, _parent_, _root_):
 
+    def __call__(self, x, *, _parent_, _root_):
         if isinstance(x, (list, tuple, dict, ListConfig, DictConfig)):
             return len(x)
         raise TypeError(f"len() not supported for type {type(x)}")

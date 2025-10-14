@@ -12,13 +12,17 @@ class OmegaConfResolver(ABC):
         pass
 
 
-<<<<<<< HEAD
 class length(OmegaConfResolver):
     def __str__(self):
         return "length"
     
     def __call__(self, x, *, _parent_, _root_):
-=======
+
+        if isinstance(x, (list, tuple, dict, ListConfig, DictConfig)):
+            return len(x)
+        raise TypeError(f"len() not supported for type {type(x)}")
+
+
 class array(OmegaConfResolver):
     def __str__(self):
         return "array"
@@ -26,21 +30,14 @@ class array(OmegaConfResolver):
     def __call__(self, x, *, _parent_, _root_):
         import numpy
 
->>>>>>> master
         if isinstance(x, str):
             x_loc = OmegaConf.select(_parent_, x)
             if x_loc is None:
                 x = OmegaConf.select(_root_, x)
             else:
                 x = x_loc
-<<<<<<< HEAD
-        if isinstance(x, (list, tuple, dict, ListConfig, DictConfig)):
-            return len(x)
-        raise TypeError(f"len() not supported for type {type(x)}")
-=======
         return numpy.asarray(x)
 
->>>>>>> master
 
 class mult(OmegaConfResolver):
     def __str__(self):

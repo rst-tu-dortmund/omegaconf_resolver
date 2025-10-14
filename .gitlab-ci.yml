@@ -22,10 +22,10 @@ unit-test-job:
       - ubuntu
   stage: test
   script:
-    - python3.8 -m pip install -U pip setuptools wheel
-    - python3.8 -m pip install ".[test]"
+    - python3.10 -m pip install -U pip setuptools wheel
+    - python3.10 -m pip install ".[test]"
 
-    - python3.8 -m pip install -q pytest
-    - pytest --cov=src test/
+    - python3.10 -m pip install -q pytest
+    - python3.10 -m pytest --cov=src test/
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'

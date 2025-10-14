@@ -1,10 +1,51 @@
-defaults:
-  - sub_conf: subconf
-  - another_subconf: anothersubconf
-  - _self_
+# defaults:
+  # - sub_conf: subconf
+  # - another_subconf: anothersubconf
+  # - _self_
 
 a: 3
-add: ${add:a,2}
-mult: ${mult:a,2}
-div: ${div:a,2}
-intdiv: ${intdiv:a,2}
+
+test_list:
+  - 1
+  - 2
+  - 3
+
+test_base_path: /home/user/test_base_path
+test_sub_path: subdir1/subdir2
+
+# test lengtth
+len_ref: ${length:${test_list}}
+len: ${length:[1,2,3,4,5]}
+
+# test array
+arr_ref: ${array:${test_list}}
+arr: ${array:[1,2,3,4,5]}
+
+# test mult
+mult_ref: ${mult:${a},2}
+mult: ${mult:3,2}
+
+# test div
+div_ref: ${div:${a},2}
+div: ${div:3,2}
+
+# test intdiv
+intdiv_ref: ${intdiv:${a},2}
+intdiv: ${intdiv:3,2}
+
+# test if_cond
+bool: true
+if_cond_ref: ${if_cond:${bool}, "yes", "no"}
+if_cond: ${if_cond:true, "yes", "no"}
+
+# test add
+add_ref: ${add:${a},2}
+add: ${add:3,2}
+
+# test sub
+sub_ref: ${sub:${a},2}
+sub: ${sub:3,2}
+
+# test path_join
+path_join_ref: ${path_join:${test_base_path},${test_sub_path}}
+path_join: ${path_join:/home/user/test_base_path,subdir1/subdir2}

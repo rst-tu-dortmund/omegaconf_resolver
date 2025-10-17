@@ -95,3 +95,24 @@ class path_join(OmegaConfResolver):
 
     def __call__(self, *args, _parent_, _root_):
         return self.joinmethod(*args)
+
+
+class condition(OmegaConfResolver):
+    def __str__(self):
+        return "condition"
+
+    def __call__(self, condition, a, b, *, _parent_, _root_):
+        if condition == "eq":
+            return a == b
+        elif condition == "ne":
+            return a != b
+        elif condition == "lt":
+            return a < b
+        elif condition == "le":
+            return a <= b
+        elif condition == "gt":
+            return a > b
+        elif condition == "ge":
+            return a >= b
+        else:
+            raise ValueError(f"Unknown condition: {condition}")

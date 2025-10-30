@@ -1,6 +1,8 @@
 from omegaconf import OmegaConf, ListConfig, DictConfig
 from abc import ABC, abstractmethod
 
+from omegaconf.errors import InterpolationResolutionError
+
 
 class OmegaConfResolver(ABC):
     @abstractmethod
@@ -116,3 +118,65 @@ class condition(OmegaConfResolver):
             return a >= b
         else:
             raise ValueError(f"Unknown condition: {condition}")
+
+
+class math(OmegaConfResolver):
+    def __init__(self):
+        super().__init__()
+        self._known_ops = {
+            "pi",
+            "sqrt",
+            "log",
+            "exp",
+            "sin",
+            "cos",
+            "tan",
+            "rad2deg",
+            "deg2rad",
+            "pow",
+        }
+
+    def __str__(self):
+        return "math"
+
+    def __call__(self, operation, x=None, y=None, *, _parent_, _root_):
+        import math
+
+        if operation not in self._known_ops:
+            raise InterpolationResolutionError(
+                ValueError(f"Unknown math operation: {operation}")
+            )
+        # constant ops
+        if operation == "pi":
+            return math.pi
+        # unary ops
+        if x is None:
+            raise InterpolationResolutionError(
+                ValueError(f"math op {operation} requires argument x")
+            )
+        if operation == "sqrt":
+            return math.sqrt(x)
+        if operation == "log":
+            return math.log(x)
+        if operation == "exp":
+            return math.exp(x)
+        if operation == "sin":
+            return math.sin(x)
+        if operation == "cos":
+            return math.cos(x)
+        if operation == "tan":
+            return math.tan(x)
+        if operation == "rad2deg":
+            return x * 180.0 / math.pi
+        if operation == "deg2rad":
+            return x * math.pi / 180.0
+        # binary ops
+        if y is None:
+            raise InterpolationResolutionError(
+                ValueError(f"math op {operation} requires argument y")
+            )
+        if operation == "pow":
+            return math.pow(x, y)
+        raise InterpolationResolutionError(
+            ValueError(f"Unknown math operation: {operation}")
+        )

@@ -1,3 +1,4 @@
+import pytest
 from pytest import fixture, mark
 
 from omegaconf import OmegaConf
@@ -118,7 +119,7 @@ def test_path_join():
     assert cfg["path_join"] == "/home/user/test_base_path/subdir1/subdir2"
 
 
-def test_resolver():
+def _test_resolver():
     test_length()
     test_array()
     test_mult()
@@ -165,3 +166,68 @@ def test_resolver_with_hydra():
 
     assert cfg["path_join_ref"] == "/home/user/test_base_path/subdir1/subdir2"
     assert cfg["path_join"] == "/home/user/test_base_path/subdir1/subdir2"
+
+
+def test_math():
+    with pytest.raises(ValueError, match="Unknown math operation: invalid_func"):
+        cfg = OmegaConf.create(
+            {
+                "math_invalid": "${math:invalid_func,3}",
+            }
+        )
+        value = cfg["math_invalid"]  # OmegaConf resolves at access time
+    with pytest.raises(ValueError, match="math op sin requires argument x"):
+        cfg = OmegaConf.create(
+            {
+                "math_invalid_args": "${math:sin}",
+            }
+        )
+        value = cfg["math_invalid_args"]  # OmegaConf resolves at access time
+
+    with pytest.raises(ValueError, match="math op pow requires argument y"):
+        cfg = OmegaConf.create(
+            {
+                "math_invalid_args": "${math:pow,3}",
+            }
+        )
+        value = cfg["math_invalid_args"]  # OmegaConf resolves at access time
+
+    with pytest.raises(ValueError, match="math domain error"):
+        cfg = OmegaConf.create(
+            {
+                "math_invalid_args": "${math:log,-1}",
+            }
+        )
+        value = cfg["math_invalid_args"]  # OmegaConf resolves at access time
+
+    cfg = OmegaConf.create({"math_neg_sqrt": "${math:sqrt,-4}"})
+    with pytest.raises(ValueError, match="math domain error"):
+        value = cfg["math_neg_sqrt"]  # OmegaConf resolves at access time
+
+    cfg = OmegaConf.create(
+        {
+            "a": 3,
+            "b": 2,
+            "c": 4,
+            "math_sin": "${math:sin,${a}}",
+            "math_cos": "${math:cos,${a}}",
+            "math_tan": "${math:tan,${a}}",
+            "math_pow": "${math:pow,${b},${c}}",
+            "math_rad2deg": "${math:rad2deg,${a}}",
+            "math_deg2rad": "${math:deg2rad,${a}}",
+            "math_sqrt": "${math:sqrt,${a}}",
+            "math_log": "${math:log,${a}}",
+            "math_exp": "${math:exp,${a}}",
+        }
+    )
+    import math
+
+    assert math.isclose(cfg["math_sin"], math.sin(3))
+    assert math.isclose(cfg["math_cos"], math.cos(3))
+    assert math.isclose(cfg["math_tan"], math.tan(3))
+    assert cfg["math_pow"] == math.pow(2, 4)
+    assert math.isclose(cfg["math_rad2deg"], math.degrees(3))
+    assert math.isclose(cfg["math_deg2rad"], math.radians(3))
+    assert math.isclose(cfg["math_sqrt"], math.sqrt(3))
+    assert math.isclose(cfg["math_log"], math.log(3))
+    assert math.isclose(cfg["math_exp"], math.exp(3))

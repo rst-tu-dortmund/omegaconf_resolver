@@ -13,7 +13,7 @@ test_list:
 test_base_path: /home/user/test_base_path
 test_sub_path: subdir1/subdir2
 
-# test lengtth
+# test length
 len_ref: ${length:${test_list}}
 len: ${length:[1,2,3,4,5]}
 
@@ -49,3 +49,7 @@ sub: ${sub:3,2}
 # test path_join
 path_join_ref: ${path_join:${test_base_path},${test_sub_path}}
 path_join: ${path_join:/home/user/test_base_path,subdir1/subdir2}
+
+# test math sin
+sin_ref: ${math:sin,${a}}
+sin: ${math:sin,90}

@@ -94,4 +94,13 @@ class path_join(OmegaConfResolver):
         return "path_join"
 
     def __call__(self, *args, _parent_, _root_):
+        # skip none args
+        args = [a for a in args if a is not None]
+        
+        if len(args) == 0:
+            return ""
+        
+        if len(args) == 1:
+            return args[0]
+        
         return self.joinmethod(*args)

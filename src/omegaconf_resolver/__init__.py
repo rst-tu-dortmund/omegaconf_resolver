@@ -3,7 +3,7 @@ import sys
 import importlib
 from omegaconf import OmegaConf
 from omegaconf_resolver.omegaconf_resolver import OmegaConfResolver
-import logging 
+import logging
 
 
 def register():

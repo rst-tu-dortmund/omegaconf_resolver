@@ -1,0 +1,31 @@
+stages:
+  - formatting
+  - test
+
+
+black-checker:
+  image: pyfound/black:latest_release
+  stage: formatting
+  tags:
+      - docker
+      - ubuntu
+  script:
+    - black --check ./src
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+
+unit-test-job:
+  image: python:3.10
+  tags:
+      - docker
+      - ubuntu
+  stage: test
+  script:
+    - python3.10 -m pip install -U pip setuptools wheel
+    - python3.10 -m pip install ".[test]"
+
+    - python3.10 -m pip install -q pytest
+    - python3.10 -m pytest --cov=src test/
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
